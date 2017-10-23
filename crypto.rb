@@ -1,6 +1,6 @@
 class String
 
-  # These are methods that I will be using for crypto
+  # These are methods that I will be using for crypto.
   #
   # Given a string rep of a hex number, convert to an ascii String
   def from_hex()
@@ -23,4 +23,15 @@ class String
     self.each_byte.map { |b| b.to_s(16) }.join
   end
 
+  # Setup an XOR
+  def ^ (key)
+      out_str = []
+      hex_bytes = []
+      key_bytes = []
+
+      self.to_hex.split("").each_slice(2) {|x| hex_bytes << x.join}
+      key.to_hex.split("").each_slice(2) {|x| key_bytes << x.join}
+      hex_bytes.each_with_index{|h,i| out_str << (h.to_i(16) ^ key_bytes[i.modulo key_bytes.size].to_i(16)).chr}
+      return out_str.join
+  end
 end
